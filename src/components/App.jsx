@@ -2,32 +2,38 @@ import React from "react";
 
 function App() {
 
-  var [buttonColor, setButtonColor]= React.useState("white");
-  var [name, setName]= React.useState("");
-  var [submittedName, setSubmittedName]= React.useState("");
+  var [list, setList]= React.useState(["My first task"]);
+  var [item, setItem]= React.useState("");
 
-  function handleMouseOut(){
-    setButtonColor("white");
+  function handleClick(e){
+    console.log(e);
+    setList(prev => {
+      return [...prev, item];
+    });
+    setItem("");
+
   }
 
-  function handleMouseOver(){
-    setButtonColor("black");
+  function handleChange(e){
+    setItem(e.target.value);
   }
-
-  function handleChange(event){
-    setName(event.target.value);
-  }
-
-  function handleClick(){
-    setSubmittedName(name);
-  }
-
 
   return (
     <div className="container">
-      <h1>Hello {submittedName}</h1>
-      <input type="text" placeholder="What's your name?" value={name} onChange={handleChange}/>
-      <button style={{backgroundColor:buttonColor}} onMouseOut={handleMouseOut} onMouseOver={handleMouseOver} onClick={handleClick}>Submit</button>
+      <div className="heading">
+        <h1>To-Do List</h1>
+      </div>
+      <div className="form">
+        <input type="text" value={item} onChange={handleChange}/>
+        <button onClick={handleClick}>
+          <span>Add</span>
+        </button>
+      </div>
+      <div>
+        <ul>
+          {list.map(element => <li>{element}</li>)}
+        </ul>
+      </div>
     </div>
   );
 }
